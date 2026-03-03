@@ -10,6 +10,14 @@ udp_onboard_gimbal_port_local=$((13030+px4_instance))
 udp_onboard_gimbal_port_remote=$((13280+px4_instance))
 udp_gcs_port_local=$((18570+px4_instance))
 
+udp_boat_port_local=14601
+udp_boat_port_remote=14600
+
+# [ "$px4_instance" -ne 10 ] && mavlink start -x -u $udp_boat_port_remote -o $udp_boat_port_local -r 4000000
+# [ "$px4_instance" -ne 10 ] && mavlink stream -r 10 -s GLOBAL_POSITION_INT -u $udp_onboard_payload_port_remote
+
+[ "$px4_instance" -eq 10 ] && mavlink start -x -u $udp_boat_port_local -o 14030 -r 4000000
+[ "$px4_instance" -eq 10 ] && mavlink stream -r 10 -s GLOBAL_POSITION_INT -u $udp_boat_port_local
 # GCS link
 mavlink start -x -u $udp_gcs_port_local -r 4000000 -f
 mavlink stream -r 50 -s POSITION_TARGET_LOCAL_NED -u $udp_gcs_port_local
